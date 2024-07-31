@@ -1,0 +1,30 @@
+name: CI
+on:
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - '.vscode'
+      - '*.md'
+  push:
+    branches:
+      - main
+jobs:
+  ci_check:
+    name: Code Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Moonup
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
+        with:
+          repo: chawyehsu/moonup
+
+      - name: Setup MoonBit
+        run: |
+          moonup install latest
+          export PATH=/home/runner/.moon/bin:$PATH
+
+      - name: Run Tests
+        run: moon test -v
