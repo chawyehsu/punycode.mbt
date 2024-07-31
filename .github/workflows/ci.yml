@@ -24,7 +24,8 @@ jobs:
       - name: Setup MoonBit
         run: |
           moonup install latest
-          export PATH=/home/runner/.moon/bin:$PATH
 
       - name: Run Tests
-        run: moon test -v
+        run: |
+          export PATH=/home/runner/.moon/bin:$PATH
+          moon test -v
