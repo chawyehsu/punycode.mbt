@@ -2,6 +2,10 @@
 
 > Punycode encoding and decoding in MoonBit
 
+[![ci][ci-badge]][ci]
+[![license][license-badge]](UNLICENSE)
+[![docs-svg]][docs-url]
+
 ## Installation
 
 Add the library to your project as a dependency:
@@ -53,6 +57,11 @@ To contribute, it is suggested to use `moonup` to manage the MoonBit toolchain:
 
 > [Blog](https://chawyehsu.com) · GitHub [@chawyehsu](https://github.com/chawyehsu) · Twitter [@chawyehsu](https://twitter.com/chawyehsu)
 
+[ci-badge]: https://github.com/chawyehsu/punycode.mbt/workflows/CI/badge.svg
+[ci]: https://github.com/chawyehsu/punycode.mbt/actions/workflows/ci.yml
+[docs-svg]: https://img.shields.io/badge/docs-mooncakes.io-orange
+[docs-url]: https://mooncakes.io/docs/#/chawyehsu/punycode/
+[license-badge]: https://img.shields.io/github/license/chawyehsu/punycode.mbt
 [moonup]: https://github.com/chawyehsu/moonup
 [RFC 3492]: https://datatracker.ietf.org/doc/html/rfc3492
 [punycode.c]: https://gist.github.com/chawyehsu/2792814973cdc0e9315fae7b96be38cc
