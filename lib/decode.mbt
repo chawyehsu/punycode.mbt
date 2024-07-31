@@ -1,0 +1,96 @@
+/// Converts a Punycode string of ASCII-only symbols to a string of
+/// Unicode symbols.
+pub fn decode(encoded : String) -> String? {
+  let decoded = []
+  let encoded_length = encoded.length().to_uint()
+  let delimiter_idx = encoded.last_index_of(delimiter.to_string())
+  let basic = match delimiter_idx < 0 {
+    true => 0U
+    false => delimiter_idx.to_uint()
+  }
+  // Basic ASCII code point extraction
+  let encoded = encoded.to_array()
+  for j = 0U; j < basic; j = j + 1U {
+    let c = encoded[j.to_int()]
+    let code = c.to_int()
+    if code >= 0x80 {
+      // Not basic ASCII code point
+      return None
+    }
+    decoded.push(c)
+  }
+  // Initialize the state
+  let mut n = initial_n
+  let mut i = 0U
+  let mut bias = initial_bias
+  // Main decoding loop
+  let mut idx = if basic > 0 { basic + 1 } else { 0 }
+  while idx < encoded_length {
+    let oldi = i
+    let mut w = 1U
+    for k = base; ; k = k + base {
+      let digit = decode_digit(encoded[idx.to_int()])
+      idx += 1
+
+      if digit > (@uint.max - i) / w {
+        return None // Overflow
+      }
+
+      i += digit * w
+      let t = if k <= bias {
+        tmin
+      } else if k >= bias + tmax {
+        tmax
+      } else {
+        k - bias
+      }
+
+      if digit < t {
+        break
+      }
+      if w > @uint.max / (base - t) {
+        return None // Overflow
+      }
+
+      w *= base - t
+    }
+
+    let out = decoded.length().to_uint() + 1U
+    bias = adapt(i - oldi, out, oldi == 0U)
+
+    if i / out > @uint.max - n {
+      return None // Overflow
+    }
+
+    n += i / out
+    i %= out
+
+    decoded.insert(i.to_int(), Char::from_int(n.to_int()))
+    i += 1U
+  }
+
+  // FIXME(chawyehsu): I was expecting to convert the array to a string
+  // using `.to_string()` here but it seems it's not the right way to
+  // do it in MoonBit, `.join("")` doesn't work as expected either.
+  let mut decoded_str = ""
+  let mut i = 0
+  while i < decoded.length() {
+    decoded_str = decoded_str + decoded[i].to_string()
+    i += 1
+  }
+
+  Some(decoded_str)
+}
+
+fn decode_digit(c : Char) -> UInt {
+  let code = c.to_int()
+  if code >= 48 && code < 58 {
+    code.to_uint() - 48U + 26U // 0-9
+  } else if code >= 65 && code < 91 {
+    code.to_uint() - 65U // A-Z
+  } else if code >= 97 && code < 123 {
+    code.to_uint() - 97U // a-z
+  } else {
+    abort("Invalid punycode")
+  }
+}
