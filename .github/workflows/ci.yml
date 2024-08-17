@@ -17,15 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Moonup
-        uses: jaxxstorm/action-install-gh-release@v1.12.0
-        with:
-          repo: chawyehsu/moonup
-
-      - name: Setup MoonBit
-        run: |
-          moonup install latest
+        uses: chawyehsu/setup-moonup@v0.1.0
 
       - name: Run Tests
-        run: |
-          export PATH=/home/runner/.moon/bin:$PATH
-          moon test -v
+        run: moon test -v
