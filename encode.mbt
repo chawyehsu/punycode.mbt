@@ -4,7 +4,7 @@ pub fn encode(raw : String) -> String? {
   // Basic code point segregation, extract ASCII characters that are
   // encoded as-is
   let encoded = raw.iter().filter(fn(c) { c.to_int() < 0x7F }).collect()
-  let basic_length = encoded.length().to_uint()
+  let basic_length = encoded.length().reinterpret_as_uint()
   // Initialize the state
   let mut n = initial_n
   let mut delta = 0U
@@ -15,19 +15,19 @@ pub fn encode(raw : String) -> String? {
     encoded.push(delimiter)
   }
 
-  let input_lenght = raw.length().to_uint()
+  let input_lenght = raw.length().reinterpret_as_uint()
   // Main encoding loop
   while h < input_lenght {
     // let m = the minimum {non-basic} code point >= n in the input
-    let mut m = @uint.max
+    let mut m = @uint.max_value
     for j = 0U; j < input_lenght; j = j + 1U {
-      let code = raw[j.to_int()].to_int().to_uint()
+      let code = raw[j.reinterpret_as_int()].to_int().reinterpret_as_uint()
       if code >= n && code < m {
         m = code
       }
     }
 
-    if m - n > (@uint.max - delta) / (h + 1) {
+    if m - n > (@uint.max_value - delta) / (h + 1) {
       return None // Overflow
     }
 
@@ -35,7 +35,7 @@ pub fn encode(raw : String) -> String? {
     n = m
 
     for j = 0U; j < input_lenght; j = j + 1U {
-      let code = raw[j.to_int()].to_int().to_uint()
+      let code = raw[j.reinterpret_as_int()].to_int().reinterpret_as_uint()
       if code < n {
         delta += 1
         if delta == 0 {
@@ -83,9 +83,9 @@ pub fn encode(raw : String) -> String? {
 
 fn encode_digit(d : UInt) -> Char {
   if d < 26U {
-    Char::from_int(d.to_int() + 97) // a-z
+    Char::from_int(d.reinterpret_as_int() + 97) // a-z
   } else if d < 36U {
-    Char::from_int(d.to_int() - 26 + 48) // 0-9
+    Char::from_int(d.reinterpret_as_int() - 26 + 48) // 0-9
   } else {
     abort("Invalid digit")
   }

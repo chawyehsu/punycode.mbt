@@ -2,16 +2,16 @@
 /// Unicode symbols.
 pub fn decode(encoded : String) -> String? {
   let decoded = []
-  let encoded_length = encoded.length().to_uint()
+  let encoded_length = encoded.length().reinterpret_as_uint()
   let delimiter_idx = encoded.last_index_of(delimiter.to_string())
   let basic = match delimiter_idx < 0 {
     true => 0U
-    false => delimiter_idx.to_uint()
+    false => delimiter_idx.reinterpret_as_uint()
   }
   // Basic ASCII code point extraction
   let encoded = encoded.to_array()
   for j = 0U; j < basic; j = j + 1U {
-    let c = encoded[j.to_int()]
+    let c = encoded[j.reinterpret_as_int()]
     let code = c.to_int()
     if code >= 0x80 {
       // Not basic ASCII code point
@@ -29,10 +29,10 @@ pub fn decode(encoded : String) -> String? {
     let oldi = i
     let mut w = 1U
     for k = base; ; k = k + base {
-      let digit = decode_digit(encoded[idx.to_int()])
+      let digit = decode_digit(encoded[idx.reinterpret_as_int()])
       idx += 1
 
-      if digit > (@uint.max - i) / w {
+      if digit > (@uint.max_value - i) / w {
         return None // Overflow
       }
 
@@ -48,24 +48,24 @@ pub fn decode(encoded : String) -> String? {
       if digit < t {
         break
       }
-      if w > @uint.max / (base - t) {
+      if w > @uint.max_value / (base - t) {
         return None // Overflow
       }
 
       w *= base - t
     }
 
-    let out = decoded.length().to_uint() + 1U
+    let out = decoded.length().reinterpret_as_uint() + 1U
     bias = adapt(i - oldi, out, oldi == 0U)
 
-    if i / out > @uint.max - n {
+    if i / out > @uint.max_value - n {
       return None // Overflow
     }
 
     n += i / out
     i %= out
 
-    decoded.insert(i.to_int(), Char::from_int(n.to_int()))
+    decoded.insert(i.reinterpret_as_int(), Char::from_int(n.reinterpret_as_int()))
     i += 1U
   }
 
@@ -85,11 +85,11 @@ pub fn decode(encoded : String) -> String? {
 fn decode_digit(c : Char) -> UInt {
   let code = c.to_int()
   if code >= 48 && code < 58 {
-    code.to_uint() - 48U + 26U // 0-9
+    code.reinterpret_as_uint() - 48U + 26U // 0-9
   } else if code >= 65 && code < 91 {
-    code.to_uint() - 65U // A-Z
+    code.reinterpret_as_uint() - 65U // A-Z
   } else if code >= 97 && code < 123 {
-    code.to_uint() - 97U // a-z
+    code.reinterpret_as_uint() - 97U // a-z
   } else {
     abort("Invalid punycode")
   }
