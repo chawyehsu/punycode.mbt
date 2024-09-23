@@ -3,8 +3,8 @@
 > Punycode encoding and decoding in MoonBit
 
 [![ci][ci-badge]][ci]
+[![version-svg]][mooncakes-url]
 [![license][license-badge]](UNLICENSE)
-[![docs-svg]][docs-url]
 
 ## Installation
 
@@ -37,11 +37,11 @@ Decode a Punycode string of ASCII-only symbols to a string of Unicode symbols.
 ## Contributing
 
 The codebase might not yet be updated to support the latest version of MoonBit
-language. A explicit version of the MoonBit toolchain has been pinned in the
+language. An explicit version of the MoonBit toolchain has been pinned in the
 `moonbit-version` file, which is used by the [moonup] tool.
 
 ```sh
-moonup pin <toolchain_version>
+moonup pin toolchain-version
 ```
 
 To contribute, it is suggested to use `moonup` to manage the MoonBit toolchain:
@@ -59,8 +59,8 @@ To contribute, it is suggested to use `moonup` to manage the MoonBit toolchain:
 
 [ci-badge]: https://github.com/chawyehsu/punycode.mbt/workflows/CI/badge.svg
 [ci]: https://github.com/chawyehsu/punycode.mbt/actions/workflows/ci.yml
-[docs-svg]: https://img.shields.io/badge/docs-mooncakes.io-orange
-[docs-url]: https://mooncakes.io/docs/#/chawyehsu/punycode/
+[version-svg]: https://img.shields.io/badge/mooncakes.io-v0.0.3-orange
+[mooncakes-url]: https://mooncakes.io/docs/#/chawyehsu/punycode/
 [license-badge]: https://img.shields.io/github/license/chawyehsu/punycode.mbt
 [moonup]: https://github.com/chawyehsu/moonup
 [RFC 3492]: https://datatracker.ietf.org/doc/html/rfc3492
