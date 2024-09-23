@@ -1,5 +1,4 @@
-/// Converts a Punycode string of ASCII-only symbols to a string of
-/// Unicode symbols.
+/// Converts a Punycode string of ASCII-only symbols to a string of Unicode symbols.
 pub fn decode(encoded : String) -> String? {
   let decoded = []
   let encoded_length = encoded.length().reinterpret_as_uint()

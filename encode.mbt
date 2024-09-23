@@ -1,5 +1,4 @@
-/// Convert a string of Unicode symbols to a Punycode string of ASCII-only
-/// symbols.
+/// Convert a string of Unicode symbols to a Punycode string of ASCII-only symbols.
 pub fn encode(raw : String) -> String? {
   // Basic code point segregation, extract ASCII characters that are
   // encoded as-is
