@@ -1,0 +1,16 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "chawyehsu/punycode"
+
+// Values
+pub fn decode(String) -> String?
+
+pub fn encode(String) -> String?
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

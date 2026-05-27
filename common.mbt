@@ -21,10 +21,12 @@ let initial_bias : UInt = 72U
 ///|
 let initial_n : UInt = 0x80U // 128
 
-///| Delimiter between literal portion and encoded portion
+///|
+/// Delimiter between literal portion and encoded portion
 let delimiter : Char = '-'
 
-///| Bias adaptation function
+///|
+/// Bias adaptation function
 fn adapt(delta : UInt, num_points : UInt, first_time : Bool) -> UInt {
   let mut delta = delta
   delta /= if first_time { damp } else { 2U }
